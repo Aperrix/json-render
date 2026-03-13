@@ -23,6 +23,8 @@ npm install @json-render/core @json-render/vue
 npm install @json-render/core @json-render/svelte
 # or for SolidJS
 npm install @json-render/core @json-render/solid
+# or for SSR HTML (Astro, Cloudflare Workers, edge)
+npm install @json-render/core @json-render/astro
 # or for 3D scenes
 npm install @json-render/core @json-render/react-three-fiber @react-three/fiber @react-three/drei three
 ```
@@ -134,6 +136,7 @@ function Dashboard({ spec }) {
 | `@json-render/zustand`      | Zustand adapter for `StateStore`                                       |
 | `@json-render/jotai`        | Jotai adapter for `StateStore`                                         |
 | `@json-render/xstate`       | XState Store (atom) adapter for `StateStore`                           |
+| `@json-render/astro`        | SSR HTML renderer for Astro, Cloudflare Workers, and edge runtimes     |
 | `@json-render/mcp`          | MCP Apps integration for Claude, ChatGPT, Cursor, VS Code              |
 
 ## Renderers
@@ -435,6 +438,23 @@ const png = await renderToPng(spec, { fonts });
 // Or render to SVG string
 import { renderToSvg } from "@json-render/image/render";
 const svg = await renderToSvg(spec, { fonts });
+```
+
+### Astro / SSR HTML
+
+```typescript
+import { renderToHtml, escapeHtml } from "@json-render/astro";
+
+const registry = {
+  Card: ({ props, children }) =>
+    `<div class="card"><h3>${escapeHtml(props.title)}</h3>${children}</div>`,
+  Text: ({ props }) =>
+    `<p>${escapeHtml(props.content)}</p>`,
+};
+
+const html = renderToHtml(spec, { registry, state: { theme: "dark" } });
+// Use in Astro: <div set:html={html} />
+// Use in Workers: new Response(html, { headers: { "Content-Type": "text/html" } })
 ```
 
 ### Three.js (3D)
