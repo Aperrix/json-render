@@ -101,6 +101,11 @@ export const docsNavigation: NavSection[] = [
         href: "https://github.com/vercel-labs/json-render/tree/main/examples/mcp",
         external: true,
       },
+      {
+        title: "Astro SSR + Islands",
+        href: "https://github.com/vercel-labs/json-render/tree/main/examples/astro",
+        external: true,
+      },
     ],
   },
   {
